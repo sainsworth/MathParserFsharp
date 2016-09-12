@@ -1,0 +1,26 @@
+type project
+title
+    MathParser using F#
+owners
+    Stewart Ainsworth
+authors 
+   Stewart Ainsworth
+projectUrl
+    ##GitUrl##/##GitHome##/##GitName##
+iconUrl
+    ##GitRawUrl##/##GitHome##/##GitName##/master/docs/files/img/logo.png
+licenseUrl
+    ##GitUrl##/##GitHome##/##GitName##/blob/master/LICENSE.txt
+requireLicenseAcceptance
+    false
+copyright
+    Copyright 2016
+tags
+    ##Tags##
+summary
+    Math Parser interview project done in F#
+description
+    In a vain and foolish attempt at improving competency in F# I am trying to reconstruct the Math Parser built for my interview in F#
+	Pity me - for I fear I will consider this to be a fun task.
+
+
