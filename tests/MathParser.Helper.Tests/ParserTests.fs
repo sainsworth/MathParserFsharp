@@ -2,7 +2,7 @@
 
 open MathParser.Parser
 open NUnit.Framework
-//open FsUnit
+open FsUnit
 
 // Acceptance Criteria
 //Input: 3a2c4
