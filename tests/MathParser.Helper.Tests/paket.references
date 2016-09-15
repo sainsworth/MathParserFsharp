@@ -1,4 +1,4 @@
 FSharp.Core
-group Test
+FsUnit
 NUnit
 NUnit.Runners

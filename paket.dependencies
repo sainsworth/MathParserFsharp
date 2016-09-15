@@ -1,6 +1,9 @@
 source https://nuget.org/api/v2
 
 nuget FSharp.Core redirects: force
+nuget FsUnit
+nuget NUnit
+nuget NUnit.Runners
 
 group Build
   source https://nuget.org/api/v2
@@ -10,9 +13,5 @@ group Build
   nuget FSharp.Formatting
 
   github fsharp/FAKE modules/Octokit/Octokit.fsx
-
-group Test
-  source https://nuget.org/api/v2
   
-  nuget NUnit ~> 2
-  nuget NUnit.Runners ~> 2
+  
