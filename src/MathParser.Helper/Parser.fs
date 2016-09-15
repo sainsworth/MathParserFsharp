@@ -1,4 +1,4 @@
-﻿namespace MathParser.Parser
+﻿module MathParser.Parser
 
 /// Documentation for my library
 ///
@@ -8,9 +8,9 @@
 ///     printfn "%d" h
 ///
 
-module Parser = 
+
   
-  let parse equation = -1
+  let parse equationString = -1
 
 
 

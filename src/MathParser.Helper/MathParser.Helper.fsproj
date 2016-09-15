@@ -60,6 +60,8 @@
   -->
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
+    <Compile Include="Domain.fs" />
+    <Compile Include="BuildStack.fs" />
     <Compile Include="Parser.fs" />
     <None Include="Script.fsx" />
     <None Include="paket.references" />
