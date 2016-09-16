@@ -1,5 +1,8 @@
 ﻿module MathParser.Parser
 
+open MathParser.BuildStack
+open MathParser.EvaluateStack
+
 /// Documentation for my library
 ///
 /// ## Example
@@ -10,7 +13,9 @@
 
 
   
-  let parse equationString = -1
-
+  let parse equationString =
+    equationString
+    |> build
+    |> evaluate
 
 

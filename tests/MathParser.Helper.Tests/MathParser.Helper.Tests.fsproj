@@ -64,6 +64,7 @@
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
     <Compile Include="BuildStackTests.fs" />
+    <Compile Include="EvaluateStackTests.fs" />
     <Compile Include="AcceptanceTests.fs" />
     <None Include="paket.references" />
     <Content Include="App.config" />
