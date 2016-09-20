@@ -37,8 +37,17 @@ let private splitIntoComponents (expression:string) =
              |> Array.map (fun x -> parseStackItem x)
              |> Array.toList
 
+let generalChecks (thisStack:StackItem List) =
+  let c_open = thisStack |> List.filter (fun x -> x = B_Open) |> List.length
+  let c_close = thisStack |> List.filter (fun x -> x = B_Close) |> List.length
+  match (c_open = c_close) with
+  | true -> match thisStack |> List.length with
+            | i when i % 2 = 1 -> thisStack
+            | _ -> failwith "Invalid stack size"
+  | _ -> failwith "unequal open and close parentheses"
+
 let build (equationString:string) =
   equationString |> parseRegex "^(\d|[abcdef]){1,}$"
                  |> addDelimiters
                  |> splitIntoComponents
-               
+                 |> generalChecks

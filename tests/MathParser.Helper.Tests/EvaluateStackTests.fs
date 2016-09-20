@@ -14,4 +14,4 @@ let ``EvaluateStack: When parsing an equation starting with invalid expression a
               "No exception caught"
             with
             | Failure msg -> msg
-  res |> should equal "Not A Number"
+  res |> should equal "It's all gone wrong"

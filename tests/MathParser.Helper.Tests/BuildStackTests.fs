@@ -61,3 +61,25 @@ let ``BuildStack: When parsing an equstion with invalid characters an exception 
             with
             | Failure msg -> msg
   res |> should equal "The supplied expression is invalid"
+
+[<Test>]
+let ``BuildStack: When parsing an equstion with invalid length an exception is thrown`` () =
+  let res = try
+              "11aa33"
+              |> build
+              |> ignore
+              "No exception caught"
+            with
+            | Failure msg -> msg
+  res |> should equal "Invalid stack size"
+
+[<Test>]
+let ``BuildStack: When parsing an equstion with dodgy parentheses an exception is thrown`` () =
+  let res = try
+              "e11a22fff"
+              |> build
+              |> ignore
+              "No exception caught"
+            with
+            | Failure msg -> msg
+  res |> should equal "unequal open and close parentheses"

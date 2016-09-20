@@ -57,7 +57,13 @@ let ``Acceptance: When parsing e1a2f the result is 3`` () =
   |> should equal 3
 
 [<Test>]
-let ``Acceptance: When parsing e1a2fc3 the result is 9`` () =
-  "e1a2fc3"
+let ``Acceptance: When parsing ee1a2fc3f the result is 9`` () =
+  "ee1a2fc3f"
   |> parse
   |> should equal 9
+
+[<Test>]
+let ``Acceptance: When parsing (1+2)*3+(4*5)-(6+(8/2)) the result is 19`` () =
+  "e1a2fc3ae4c5fbe6ae8d2ff"
+  |> parse
+  |> should equal 19
