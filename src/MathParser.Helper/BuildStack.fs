@@ -20,12 +20,16 @@ let private addDelimiters (expression:string) =
              |> fun x -> x.Replace("::", ":")
 
 let private splitIntoComponents (expression:string) =
+  let dropIfStartsColon (chars:char list) =
+    match chars.Head with
+    | ':' -> chars.Tail
+    | _ -> chars
+
   expression |> fun x -> x.ToCharArray()
              |> Array.toList
+             |> dropIfStartsColon
              |> List.rev
-             |> fun x -> match x.Head with
-                         | ':' -> x.Tail
-                         | _ -> x
+             |> dropIfStartsColon
              |> List.rev
              |> List.toArray
              |> fun x -> System.String(x)

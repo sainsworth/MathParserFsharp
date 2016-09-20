@@ -49,3 +49,15 @@ let ``Acceptance: When parsing 3c4d2aee2a4c41fc4f the result is 990`` () =
   "3c4d2aee2a4c41fc4f"
   |> parse
   |> should equal 990
+  
+[<Test>]
+let ``Acceptance: When parsing e1a2f the result is 3`` () =
+  "e1a2f"
+  |> parse
+  |> should equal 3
+
+[<Test>]
+let ``Acceptance: When parsing e1a2fc3 the result is 9`` () =
+  "e1a2fc3"
+  |> parse
+  |> should equal 9
