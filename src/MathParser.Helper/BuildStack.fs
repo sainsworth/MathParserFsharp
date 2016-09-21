@@ -4,8 +4,8 @@ open MathParser.Domain
 open MathParser.DomainUtils
 open System.Text.RegularExpressions
 
-let private parseRegex template expression =
-  let res = Regex(template).Match(expression)
+let private parseRegex expression =
+  let res = Regex("^(\d|[abcdef]){1,}$").Match(expression)
   match res.Success with
   | true -> expression
   | _ -> failwith "The supplied expression is invalid"
@@ -49,9 +49,9 @@ let generalChecks (thisStack:StackItem List) =
             | _ -> failwith "Invalid stack size"
   | _ -> failwith "unequal open and close parentheses"
 
-let build (equationString:string) =
-  equationString |> parseRegex "^(\d|[abcdef]){1,}$"
-                 |> addDelimiters
-                 |> tidyExcessColons
-                 |> splitIntoComponents
-                 |> generalChecks
+let build =
+  parseRegex 
+  >> addDelimiters
+  >> tidyExcessColons
+  >> splitIntoComponents
+  >> generalChecks
