@@ -3,6 +3,11 @@
 open MathParser.Domain
 open MathParser.DomainUtils
 
+let secondItem (l:'a List) =
+  l |> List.tail |> List.head
+let tailOfTail (l:'a List) =
+  l |> List.tail |> List.tail
+
 let doTheOperation (accumulator:float) (operator:StackItem) (value:float) =
   match operator with
   | Add -> accumulator + value
@@ -20,7 +25,7 @@ let rec private removeLeadingClose (thisStack:StackItem List) =
 
 let rec private accumulate (accumulator:float) (thisStack:StackItem List) = 
   let rec evaluateStack (thisStack:StackItem List) = 
-    let firstElement = thisStack |> List.head
+    let firstElement = thisStack.Head
 
     let rec keepEvaluating acc tail =
       let resAcc, (resTail:StackItem List) = accumulate acc tail
@@ -29,18 +34,18 @@ let rec private accumulate (accumulator:float) (thisStack:StackItem List) =
       | _ -> keepEvaluating resAcc resTail
 
     match firstElement with
-    | Float x -> keepEvaluating x (thisStack |> List.tail) |> fun x -> [Float (fst x)] @ (snd x)
+    | Float x -> keepEvaluating x thisStack.Tail |> fun x -> [Float (fst x)] @ (snd x)
     | B_Open -> thisStack |> List.tail |> evaluateStack
     | _ -> failwith "Not A Number"
 
   let operator = thisStack |> List.head
 
-  let remainingStack = match thisStack |> List.tail |> List.head with
-                       | B_Open -> thisStack |> List.tail |> List.tail |> evaluateStack
+  let remainingStack = match thisStack |> secondItem with
+                       | B_Open -> thisStack |> tailOfTail |> evaluateStack
                        | _ -> thisStack.Tail
 
-  let nextElement = remainingStack |> List.head
-  let stackTail =  remainingStack |> List.tail
+  let nextElement = remainingStack.Head
+  let stackTail =  remainingStack.Tail
 
   let result = match nextElement with
                | Float x -> doTheOperation accumulator operator x

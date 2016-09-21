@@ -9,7 +9,7 @@ let private parseRegex template expression =
   match res.Success with
   | true -> expression
   | _ -> failwith "The supplied expression is invalid"
- 
+  
 let private addDelimiters (expression:string) =
   expression |> fun x -> x.Replace("a", ":+:")
              |> fun x -> x.Replace("b", ":-:")
@@ -19,12 +19,13 @@ let private addDelimiters (expression:string) =
              |> fun x -> x.Replace("f", ":):")
              |> fun x -> x.Replace("::", ":")
 
-let private splitIntoComponents (expression:string) =
-  let dropIfStartsColon (chars:char list) =
+let private dropIfStartsColon (chars:char list) =
     match chars.Head with
     | ':' -> chars.Tail
     | _ -> chars
 
+ 
+let private tidyExcessColons (expression:string) =
   expression |> fun x -> x.ToCharArray()
              |> Array.toList
              |> dropIfStartsColon
@@ -33,7 +34,9 @@ let private splitIntoComponents (expression:string) =
              |> List.rev
              |> List.toArray
              |> fun x -> System.String(x)
-             |> fun x -> x.Split(':')
+
+let private splitIntoComponents (expression:string) =
+  expression |> fun x -> x.Split(':')
              |> Array.map (fun x -> parseStackItem x)
              |> Array.toList
 
@@ -49,5 +52,6 @@ let generalChecks (thisStack:StackItem List) =
 let build (equationString:string) =
   equationString |> parseRegex "^(\d|[abcdef]){1,}$"
                  |> addDelimiters
+                 |> tidyExcessColons
                  |> splitIntoComponents
                  |> generalChecks
