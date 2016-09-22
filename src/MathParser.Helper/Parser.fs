@@ -12,10 +12,13 @@ open MathParser.EvaluateStack
 ///
 
 
-  
-  let parse equationString =
-    equationString
-    |> build
-    |> evaluate
-
-
+//  
+//  let parse equationString =
+//    equationString
+//    |> build
+//    |> evaluate
+//
+//
+//let parse equationString =
+//  equationString
+//  |> build

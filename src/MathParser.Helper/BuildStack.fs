@@ -1,14 +1,16 @@
 ﻿module MathParser.BuildStack
 
+open MathParser.ErrorMessage
+open MathParser.Railway
 open MathParser.Domain
 open MathParser.DomainUtils
 open System.Text.RegularExpressions
 
-let private parseRegex expression =
+let private parseRegex (expression:string) =
   let res = Regex("^(\d|[abcdef]){1,}$").Match(expression)
   match res.Success with
-  | true -> expression
-  | _ -> failwith "The supplied expression is invalid"
+  | true -> Success expression
+  | _ -> Failure TheSuppliedExpressionIsInvalid
   
 let private addDelimiters (expression:string) =
   expression |> fun x -> x.Replace("a", ":+:")
@@ -24,7 +26,6 @@ let private dropIfStartsColon (chars:char list) =
     | ':' -> chars.Tail
     | _ -> chars
 
- 
 let private tidyExcessColons (expression:string) =
   expression |> fun x -> x.ToCharArray()
              |> Array.toList
@@ -45,13 +46,14 @@ let generalChecks (thisStack:StackItem List) =
   let c_close = thisStack |> List.filter (fun x -> x = B_Close) |> List.length
   match (c_open = c_close) with
   | true -> match thisStack |> List.length with
-            | i when i % 2 = 1 -> thisStack
-            | _ -> failwith "Invalid stack size"
-  | _ -> failwith "unequal open and close parentheses"
+            | i when i % 2 = 1 -> Success thisStack
+            | _ -> Failure InvalidStackSize
+  | _ -> Failure UnequalOpenAndCloseParentheses
 
 let build =
   parseRegex 
-  >> addDelimiters
-  >> tidyExcessColons
-  >> splitIntoComponents
-  >> generalChecks
+  >-> addDelimiters
+  >-> tidyExcessColons
+  >-> splitIntoComponents
+  >=> generalChecks
+
