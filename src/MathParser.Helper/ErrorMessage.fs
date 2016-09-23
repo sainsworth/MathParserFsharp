@@ -1,6 +1,5 @@
 ﻿module MathParser.ErrorMessage
 
-
 type ErrorMessage =
 // Test Error Messages
 |NameMustNotBeBlank

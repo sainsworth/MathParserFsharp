@@ -63,6 +63,7 @@
   -->
   <Import Project="..\..\.paket\paket.targets" />
   <ItemGroup>
+    <Compile Include="RailwayTests.fs" />
     <Compile Include="BuildStackTests.fs" />
     <Compile Include="EvaluateStackTests.fs" />
     <Compile Include="AcceptanceTests.fs" />
