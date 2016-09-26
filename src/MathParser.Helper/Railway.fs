@@ -58,36 +58,8 @@ let (>|>) switchFunction deadEndFunction x =
   | Success s -> Success (tee deadEndFunction s)
   | Failure f -> Failure f
 
-//>> tee (map addDelimiters)
 let (>>|) twoTrackInput deadEndFunction =
   match twoTrackInput with
   | Success s -> Success (tee deadEndFunction s)
   | Failure f -> Failure f
-
-//  let deSwitch = tee deadEndFunction >> map
-//  twoTrackFunction >> deSwitch
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-//
-
-
-// convert a normal function into a switch (datacentric)
-
-////   let pa = pr |> bind (switch addDelimiters)
-//let (>->) switchFunction f x =
-//  match switchFunction x with
-//  | Success s -> x |> bind (switch f)
-//  | Failure f -> Failure f
-
-
-
-//// switchFunction >=> switch ( tee deadEndFunction )
-//
-//let (>|>) switchFunction deadEndFunction =
-//  switchFunction
-//  >=> switch ( tee deadEndFunction )
-//
-//let (>>|) twoTrackInput deadEndFunction =
-//  twoTrackInput |> map (tee deadEndFunction)
 

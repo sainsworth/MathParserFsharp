@@ -28,82 +28,73 @@ let testResult result =
    | Success s -> s
    | Failure f -> f |> toString |> failwith
 
-//[<Test>]
-//let ``BuildStack: When parsing 3a2c4 the result is stack_1`` () =
-//  "3a2c4"
-//  |> build
-//  |> testResult
-//  |> should equal result_1
-//  
-//[<Test>]
-//let ``BuildStack: When parsing 32a2d2 the result is stack_2`` () =
-//  "32a2d2"
-//  |> build
-//  |> testResult
-//  |> should equal result_2
-//[<Test>]
-//
-//let ``BuildStack: When parsing 500a10b66c32 the result is stack_3`` () =
-//  "500a10b66c32"
-//  |> build
-//  |> testResult
-//  |> should equal result_3
-//  
-//[<Test>]
-//let ``BuildStack: When parsing 3ae4c66fb32 the result is stack_4`` () =
-//  "3ae4c66fb32"
-//  |> build
-//  |> testResult
-//  |> should equal result_4
-//  
-//[<Test>]
-//let ``BuildStack: When parsing 3c4d2aee2a4c41fc4f the result is stack_5`` () =
-//  "3c4d2aee2a4c41fc4f"
-//  |> build
-//  |> testResult
-//  |> should equal result_5
+[<Test>]
+let ``BuildStack: When parsing 3a2c4 the result is stack_1`` () =
+  "3a2c4"
+  |> build
+  |> testResult
+  |> should equal result_1
+  
+[<Test>]
+let ``BuildStack: When parsing 32a2d2 the result is stack_2`` () =
+  "32a2d2"
+  |> build
+  |> testResult
+  |> should equal result_2
+[<Test>]
 
-//[<Test>]
-//let ``BuildStack: When parsing an equstion with invalid characters an exception is thrown`` () =
-//  let res = try
-//              "abcdef."
-//              |> build
-//              |> testResult
-//              |> ignore
-//              "No exception caught"
-//            with
-//            | Failure msg -> msg
-//  res |> should equal "The supplied expression is invalid"
-//
-//[<Test>]
-//let ``BuildStack: When parsing an equstion with invalid length an exception is thrown`` () =
-//  let res = try
-//              "11aa33"
-//              |> build
-//              |> ignore
-//              "No exception caught"
-//            with
-//            | Failure msg -> msg
-//  res |> should equal "Invalid stack size"
-//
-//[<Test>]
-//let ``BuildStack: When parsing an equstion with dodgy parentheses an exception is thrown`` () =
-//  let res = try
-//              "e11a22fff"
-//              |> build
-//              |> ignore
-//              "No exception caught"
-//            with
-//            | Failure msg -> msg
-//  res |> should equal "unequal open and close parentheses"
-//
-//[<Test>]
-//let ``BuildStack: RailTest`` () =
-//  let res = try
-//              "e11a22fff"
-//              |> build
-//              |> ignore
-//              "No exception caught"
-//            with
-//            | Failure msg -> msg
-//  res |> should equal "unequal open and close parentheses"
+let ``BuildStack: When parsing 500a10b66c32 the result is stack_3`` () =
+  "500a10b66c32"
+  |> build
+  |> testResult
+  |> should equal result_3
+  
+[<Test>]
+let ``BuildStack: When parsing 3ae4c66fb32 the result is stack_4`` () =
+  "3ae4c66fb32"
+  |> build
+  |> testResult
+  |> should equal result_4
+  
+[<Test>]
+let ``BuildStack: When parsing 3c4d2aee2a4c41fc4f the result is stack_5`` () =
+  "3c4d2aee2a4c41fc4f"
+  |> build
+  |> testResult
+  |> should equal result_5
+
+[<Test>]
+let ``BuildStack: When parsing an equstion with invalid characters an exception is thrown`` () =
+  let res = try
+              "abcdef."
+              |> build
+              |> testResult
+              |> ignore
+              "No exception caught"
+            with
+            | ex -> ex.Message
+  res |> should equal "TheSuppliedExpressionIsInvalid"
+
+[<Test>]
+let ``BuildStack: When parsing an equstion with invalid length an exception is thrown`` () =
+  let res = try
+              "11aa33"
+              |> build
+              |> testResult
+              |> ignore
+              "No exception caught"
+            with
+            | ex -> ex.Message
+  res |> should equal "InvalidStackSize"
+
+[<Test>]
+let ``BuildStack: When parsing an equstion with dodgy parentheses an exception is thrown`` () =
+  let res = try
+              "e11a22fff"
+              |> build
+              |> testResult
+              |> ignore
+              "No exception caught"
+            with
+            | ex -> ex.Message
+  res |> should equal "UnequalOpenAndCloseParentheses"
