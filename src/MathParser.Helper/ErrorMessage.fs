@@ -2,7 +2,6 @@
 
 type ErrorMessage =
 // Test Error Messages
-|RailwayNoFailure
 |RailwayTestFailure1
 |RailwayTestFailure2
 

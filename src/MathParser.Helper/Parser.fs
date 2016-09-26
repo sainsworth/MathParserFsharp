@@ -1,7 +1,8 @@
 ﻿module MathParser.Parser
 
+open MathParser.Railway
 open MathParser.BuildStack
-open MathParser.EvaluateStack
+open MathParser.EvaluateStackNew
 
 /// Documentation for my library
 ///
@@ -11,14 +12,17 @@ open MathParser.EvaluateStack
 ///     printfn "%d" h
 ///
 
-
+//
 //  
-//  let parse equationString =
-//    equationString
-//    |> build
-//    |> evaluate
-//
-//
+//let parse =
+//  build
+//  >=> evaluate
+
+
 //let parse equationString =
 //  equationString
 //  |> build
+//
+let parse =
+  build
+  >=> evaluate

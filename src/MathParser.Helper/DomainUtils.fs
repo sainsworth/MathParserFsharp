@@ -1,6 +1,25 @@
 ﻿module MathParser.DomainUtils
 
 open MathParser.Domain
+open MathParser.ErrorMessage
+open Microsoft.FSharp.Reflection
+
+// Used by error trapping in the tests
+let toString (x:'a) = 
+    match FSharpValue.GetUnionFields(x, typeof<'a>) with
+    | case, _ -> case.Name
+
+let fromString<'a> (s:string) =
+    match FSharpType.GetUnionCases typeof<'a> |> Array.filter (fun case -> case.Name = s) with
+    |[|case|] -> Some(FSharpValue.MakeUnion(case,[||]) :?> 'a)
+    |_ -> None
+
+let errorIfFailure result =
+   match result with
+   | Success s -> s
+   | Failure f -> f |> toString |> failwith
+
+// Used in the system
 
 let isNullOrEmpty (x:obj) =
    match obj.ReferenceEquals(x, null) with

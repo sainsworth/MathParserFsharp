@@ -1,7 +1,9 @@
 ﻿module MathParser.RailwayTests
 
-open MathParser.Railway
 open MathParser.ErrorMessage
+open MathParser.Domain
+open MathParser.DomainUtils
+open MathParser.Railway
 open NUnit.Framework
 open FsUnit
 open System.IO
@@ -77,25 +79,26 @@ let ``Railway: Data: 2 two track functions: OneTrack and DeadEnd`` () =
            >-> OneTrack
            >|> DeadEnd
            >=> TwoTrack2
-  let res = okString
-            |> fn
 
-  match res with
-  | Success s -> s |> should equal "ABcDef"
-  | Failure f -> f |> should equal RailwayNoFailure
-
+  let res = try
+              okString
+              |> fn
+              |> errorIfFailure
+            with
+            | ex -> ex.Message
+  res |> should equal "ABcDef"
   deadEndResult |> should equal "ABCdef"
 
 [<Test>]
 let ``Railway: Functional: 2 two track functions: OneTrack and DeadEnd`` () =
-  let res = okString
-            |> TwoTrack1
-            >>- OneTrack
-            >>| DeadEnd
-            >>= TwoTrack2
-
-  match res with
-  | Success s -> s |> should equal "ABcDef"
-  | Failure f -> f |> should equal RailwayNoFailure
-  
+  let res = try
+              okString
+              |> TwoTrack1
+              >>- OneTrack
+              >>| DeadEnd
+              >>= TwoTrack2
+              |> errorIfFailure
+            with
+            | ex -> ex.Message
+  res |> should equal "ABcDef"
   deadEndResult |> should equal "ABCdef"

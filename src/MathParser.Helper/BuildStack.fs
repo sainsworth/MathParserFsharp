@@ -52,20 +52,21 @@ let private generalChecks (thisStack:StackItem List) =
             | _ -> Failure InvalidStackSize
   | _ -> Failure UnequalOpenAndCloseParentheses
 
-let build x =
-  let pr = x
-           |> parseRegex
-           >>- addDelimiters
-           >>- tidyExcessColons
-           >>- splitIntoComponents
-           >>= generalChecks
-  pr
+//let build x =
+//  let pr = x
+//           |> parseRegex
+//           >>- addDelimiters
+//           >>- tidyExcessColons
+//           >>- splitIntoComponents
+//           >>= generalChecks
+//  pr
 //
-//let build =
-//  parseRegex
-//  >-> addDelimiters
-//  >-> tidyExcessColons
-//  >-> splitIntoComponents
-//  >=> generalChecks
+let build =
+  parseRegex
+  >-> addDelimiters
+  >-> tidyExcessColons
+  >-> splitIntoComponents
+  >=> generalChecks
+
 
 

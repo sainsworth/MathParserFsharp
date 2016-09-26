@@ -1,15 +1,9 @@
 ﻿module MathParser.Railway
 
+open MathParser.Domain
+open MathParser.DomainUtils
+
 // http://fsharpforfunandprofit.com/posts/recipe-part2/
-open MathParser.ErrorMessage
-
-//type Result<'TSuccess,'TFailure> = 
-//    | Success of 'TSuccess
-//    | Failure of 'TFailure
-
-type Result<'TSuccess> = 
-    | Success of 'TSuccess
-    | Failure of ErrorMessage
 
 // Bind has one switch function parameter.
 // It is an adapter that converts the switch function into a fully two-track function (with two-track input and two-track output). 

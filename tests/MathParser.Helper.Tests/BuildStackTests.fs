@@ -1,6 +1,7 @@
 ﻿module MathParser.Parser.BuildStackTests
 
 open MathParser.Domain
+open MathParser.DomainUtils
 open MathParser.Railway
 open MathParser.ErrorMessage
 open MathParser.BuildStack
@@ -23,44 +24,39 @@ let result_4 = [ Float 3.0; Add; B_Open; Float 4.0; Multiply; Float 66.0; B_Clos
 //Input: 3c4d2aee2a4c41fc4f
 let result_5 = [ Float 3.0; Multiply; Float 4.0; Divide; Float 2.0; Add; B_Open; B_Open; Float 2.0; Add; Float 4.0; Multiply; Float 41.0; B_Close; Multiply; Float 4.0; B_Close ]
 
-let testResult result =
-   match result with
-   | Success s -> s
-   | Failure f -> f |> toString |> failwith
-
 [<Test>]
 let ``BuildStack: When parsing 3a2c4 the result is stack_1`` () =
   "3a2c4"
   |> build
-  |> testResult
+  |> errorIfFailure
   |> should equal result_1
   
 [<Test>]
 let ``BuildStack: When parsing 32a2d2 the result is stack_2`` () =
   "32a2d2"
   |> build
-  |> testResult
+  |> errorIfFailure
   |> should equal result_2
 [<Test>]
 
 let ``BuildStack: When parsing 500a10b66c32 the result is stack_3`` () =
   "500a10b66c32"
   |> build
-  |> testResult
+  |> errorIfFailure
   |> should equal result_3
   
 [<Test>]
 let ``BuildStack: When parsing 3ae4c66fb32 the result is stack_4`` () =
   "3ae4c66fb32"
   |> build
-  |> testResult
+  |> errorIfFailure
   |> should equal result_4
   
 [<Test>]
 let ``BuildStack: When parsing 3c4d2aee2a4c41fc4f the result is stack_5`` () =
   "3c4d2aee2a4c41fc4f"
   |> build
-  |> testResult
+  |> errorIfFailure
   |> should equal result_5
 
 [<Test>]
@@ -68,7 +64,7 @@ let ``BuildStack: When parsing an equstion with invalid characters an exception 
   let res = try
               "abcdef."
               |> build
-              |> testResult
+              |> errorIfFailure
               |> ignore
               "No exception caught"
             with
@@ -80,7 +76,7 @@ let ``BuildStack: When parsing an equstion with invalid length an exception is t
   let res = try
               "11aa33"
               |> build
-              |> testResult
+              |> errorIfFailure
               |> ignore
               "No exception caught"
             with
@@ -92,7 +88,7 @@ let ``BuildStack: When parsing an equstion with dodgy parentheses an exception i
   let res = try
               "e11a22fff"
               |> build
-              |> testResult
+              |> errorIfFailure
               |> ignore
               "No exception caught"
             with
