@@ -2,9 +2,9 @@
 
 type ErrorMessage =
 // Test Error Messages
-|NameMustNotBeBlank
-|NameMustNotBeLongerThan50Chars
-|EmailMustNotBeBlank
+|RailwayNoFailure
+|RailwayTestFailure1
+|RailwayTestFailure2
 
 // BuildStack Parse Regex
 | TheSuppliedExpressionIsInvalid

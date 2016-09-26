@@ -13,13 +13,15 @@ let private parseRegex (expression:string) =
   | _ -> Failure TheSuppliedExpressionIsInvalid
   
 let private addDelimiters (expression:string) =
-  expression |> fun x -> x.Replace("a", ":+:")
+  let expr = expression
+             |> fun x -> x.Replace("a", ":+:")
              |> fun x -> x.Replace("b", ":-:")
              |> fun x -> x.Replace("c", ":*:")
              |> fun x -> x.Replace("d", ":/:")
              |> fun x -> x.Replace("e", ":(:")
              |> fun x -> x.Replace("f", ":):")
              |> fun x -> x.Replace("::", ":")
+  expr
 
 let private dropIfStartsColon (chars:char list) =
     match chars.Head with
@@ -41,7 +43,7 @@ let private splitIntoComponents (expression:string) =
              |> Array.map (fun x -> parseStackItem x)
              |> Array.toList
 
-let generalChecks (thisStack:StackItem List) =
+let private generalChecks (thisStack:StackItem List) =
   let c_open = thisStack |> List.filter (fun x -> x = B_Open) |> List.length
   let c_close = thisStack |> List.filter (fun x -> x = B_Close) |> List.length
   match (c_open = c_close) with
@@ -50,10 +52,22 @@ let generalChecks (thisStack:StackItem List) =
             | _ -> Failure InvalidStackSize
   | _ -> Failure UnequalOpenAndCloseParentheses
 
-let build =
-  parseRegex 
-  >-> addDelimiters
-  >-> tidyExcessColons
-  >-> splitIntoComponents
-  >=> generalChecks
+//let build1 x =
+//  let pr = x
+//           |> parseRegex
+//           >|> addDelimiters
+//           >-> tidyExcessColons
+//           >=> generalChecks
+//  pr
+
+//let build =
+//  parseRegex
+//  >>| addDelimiters
+////  >> switch (map addDelimiters)
+////  >>- tidyExcessColons
+////  >>- tidyExcessColons
+//  >>- tidyExcessColons
+//
+////    >>- splitIntoComponents
+//    >>= generalChecks
 
