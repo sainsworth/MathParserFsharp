@@ -1,4 +1,4 @@
-﻿module MathParser.Parser.ParserTests
+﻿module MathParser.Tests.ParserTests
 
 open MathParser.Parser
 open NUnit.Framework

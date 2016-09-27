@@ -1,4 +1,4 @@
-﻿module MathParser.Parser.BuildStackTests
+﻿module MathParser.Tests.BuildStackTests
 
 open MathParser.Domain
 open MathParser.DomainUtils

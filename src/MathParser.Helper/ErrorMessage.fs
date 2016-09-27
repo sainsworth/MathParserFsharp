@@ -13,6 +13,7 @@ type ErrorMessage =
 | UnequalOpenAndCloseParentheses
 
 // EvaluateStack
+| StackDidNotConsolidate
 | NotANumber
 | NotAnOperator
-| ItHassAllGoneWrong
+| ItHasAllGoneWrong

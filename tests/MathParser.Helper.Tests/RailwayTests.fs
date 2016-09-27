@@ -1,4 +1,4 @@
-﻿module MathParser.RailwayTests
+﻿module MathParser.Tests.RailwayTests
 
 open MathParser.ErrorMessage
 open MathParser.Domain
