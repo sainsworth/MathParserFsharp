@@ -1,70 +1,70 @@
 ﻿module MathParser.EvaluateStack
 
+open MathParser.ErrorMessage
 open MathParser.Domain
 open MathParser.DomainUtils
+open MathParser.Railway
 
-let secondItem (l:'a List) =
-  l |> List.tail |> List.head
-let tailOfTail (l:'a List) =
-  l |> List.tail |> List.tail
+let private getNext (thisStack:StackItem List) =
+  thisStack.Head, thisStack.Tail
 
-let doTheOperation (accumulator:float) (operator:StackItem) (value:float) =
+let private getNext2 (thisStack:StackItem List) =
+  thisStack.Head, thisStack.Tail.Head, thisStack.Tail.Tail
+
+let rec private consolidateStack (s_old:StackItem List) (s_new:StackItem List) =
+  let h, t = s_old |> getNext
+
+  let hh, tt = match h with
+               | B_Open -> let oo, nn = consolidateStack t []
+                           match nn with
+                           | [] -> oo |> getNext
+                           | _ -> Stack nn, oo 
+               | B_Close -> h, [Stack s_new] @ t
+               | _ -> h, t
+  match hh with
+  | B_Close -> tt, []
+  | _ -> match tt.Length with
+         | 0 -> tt, s_new @ [hh]
+         | _ -> consolidateStack tt (s_new @ [hh])
+
+let private doTheOperation (accumulator:float) (operator:StackItem) (value:float) =
   match operator with
-  | Add -> accumulator + value
-  | Subtract -> accumulator - value
-  | Multiply -> accumulator * value
-  | Divide -> accumulator / value
-  | _ -> failwith "Not an operator"
+  | Add -> Success (accumulator + value)
+  | Subtract -> Success (accumulator - value)
+  | Multiply -> Success (accumulator * value)
+  | Divide -> Success (accumulator / value)
+  | _ -> Failure NotAnOperator
 
-let rec private removeLeadingClose (thisStack:StackItem List) =
-  match thisStack.Length with
-  | 0 -> []
-  | _ -> match thisStack.Head with
-         | B_Close -> removeLeadingClose thisStack.Tail
-         | _ -> thisStack
+let rec private accumulateStack (thisStack:StackItem List) =
+  let rec accumulate (accumulator:float) (thisStack:StackItem List) =
+    let operator, value, remainder = thisStack |> getNext2
+    let isValue = match value with
+                  | Float f -> Success f
+                  | Stack s -> accumulateStack s
+                  | _ -> Failure CannotAccumulateStack
 
-let rec private accumulate (accumulator:float) (thisStack:StackItem List) = 
-  let rec evaluateStack (thisStack:StackItem List) = 
-    let firstElement = thisStack.Head
+    match isValue with
+    | Success fvalue -> let res = doTheOperation accumulator operator fvalue
+                        match res with
+                        | Success acc -> match remainder.Length with
+                                         | 0 -> Success acc
+                                         | _ -> accumulate acc remainder
+                        | Failure f -> Failure f
+    | Failure f -> Failure f
 
-    let rec keepEvaluating acc tail =
-      let resAcc, (resTail:StackItem List) = accumulate acc tail
-      match resTail.Length with
-      | 0 -> resAcc, resTail
-      | _ -> keepEvaluating resAcc resTail
+  let h,t = thisStack |> getNext
+  match h with
+  | Stack s -> match accumulateStack s with
+               | Success acc -> match t.Length with
+                                | 0 -> Success acc
+                                | _ -> accumulate acc t
+               | Failure f -> Failure f
+  | Float f -> accumulate f t
+  | _ -> Failure NotANumberOrStack
+  
+let evaluate (thisStack:StackItem List) =
+  let remainder, consolidated = consolidateStack thisStack []
 
-    match firstElement with
-    | Float x -> keepEvaluating x thisStack.Tail |> fun x -> [Float (fst x)] @ (snd x)
-    | B_Open -> thisStack |> List.tail |> evaluateStack
-    | _ -> failwith "Not A Number"
-
-  let operator = thisStack |> List.head
-
-  let remainingStack = match thisStack |> secondItem with
-                       | B_Open -> thisStack |> tailOfTail |> evaluateStack
-                       | _ -> thisStack.Tail
-
-  let nextElement = remainingStack.Head
-  let stackTail =  remainingStack.Tail
-
-  let result = match nextElement with
-               | Float x -> doTheOperation accumulator operator x
-               | B_Close -> accumulator
-               
-               | _ -> failwith "It's all gone wrong"
-
-  match stackTail |> List.length with
-  | 0 -> (result, [])
-  | _ -> stackTail |> fun t -> match t |> List.head with
-                               | B_Close -> result, removeLeadingClose t.Tail
-                               | _ -> accumulate result t
-
-let rec evaluate (thisStack:StackItem List) = 
-  match thisStack |> List.head with
-  | Float x -> thisStack.Tail |> accumulate x
-  | B_Open -> [ Add ] @ thisStack |> accumulate 0.0
- // | _ -> thisStack |> accumulate 0.0  // if we considered b4a8 (-4 + 8) to be valid: fettle here
-  | _ -> failwith "It's all gone wrong"
-  |> fst
-
-
+  match remainder.Length with
+  | 0 -> accumulateStack consolidated
+  | _ -> Failure StackDidNotConsolidate

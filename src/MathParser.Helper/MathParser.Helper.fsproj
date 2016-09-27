@@ -65,7 +65,6 @@
     <Compile Include="DomainUtils.fs" />
     <Compile Include="Railway.fs" />
     <Compile Include="BuildStack.fs" />
-    <Compile Include="EvaluateStackNew.fs" />
     <Compile Include="EvaluateStack.fs" />
     <Compile Include="Parser.fs" />
     <None Include="Script.fsx" />

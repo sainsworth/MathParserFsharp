@@ -2,7 +2,7 @@
 
 open MathParser.Railway
 open MathParser.BuildStack
-open MathParser.EvaluateStackNew
+open MathParser.EvaluateStack
 
 /// Documentation for my library
 ///

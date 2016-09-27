@@ -14,6 +14,7 @@ type ErrorMessage =
 
 // EvaluateStack
 | StackDidNotConsolidate
-| NotANumber
+| CannotAccumulateStack
+| NotANumberOrStack
 | NotAnOperator
 | ItHasAllGoneWrong
