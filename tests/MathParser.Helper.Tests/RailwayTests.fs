@@ -2,7 +2,7 @@
 
 open MathParser.ErrorMessage
 open MathParser.Domain
-open MathParser.DomainUtils
+open MathParser.Tests.TestUtils
 open MathParser.Railway
 open NUnit.Framework
 open FsUnit

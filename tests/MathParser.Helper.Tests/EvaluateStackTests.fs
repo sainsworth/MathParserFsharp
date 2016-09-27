@@ -1,7 +1,7 @@
 ﻿module MathParser.Tests.EvaluateStackTests
 
 open MathParser.Domain
-open MathParser.DomainUtils
+open MathParser.Tests.TestUtils
 open MathParser.EvaluateStack
 open NUnit.Framework
 open FsUnit 

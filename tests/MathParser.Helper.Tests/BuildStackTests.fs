@@ -1,7 +1,7 @@
 ﻿module MathParser.Tests.BuildStackTests
 
 open MathParser.Domain
-open MathParser.DomainUtils
+open MathParser.Tests.TestUtils
 open MathParser.Railway
 open MathParser.ErrorMessage
 open MathParser.BuildStack

@@ -17,4 +17,3 @@ type ErrorMessage =
 | CannotAccumulateStack
 | NotANumberOrStack
 | NotAnOperator
-| ItHasAllGoneWrong

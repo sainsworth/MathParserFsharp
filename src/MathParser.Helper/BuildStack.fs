@@ -11,7 +11,20 @@ let private parseRegex (expression:string) =
   match res.Success with
   | true -> Success expression
   | _ -> Failure TheSuppliedExpressionIsInvalid
-  
+
+let private parseStackItem str = 
+    match str with
+    | Double f -> Float f
+    | Int i -> Float (float i)
+    | _ -> match str with
+           | "+" -> Add
+           | "-" -> Subtract
+           | "*" -> Multiply
+           | "/" -> Divide
+           | "(" -> B_Open
+           | ")" -> B_Close
+           | _ -> UNKNOWN
+
 let private addDelimiters (expression:string) =
   let expr = expression
              |> fun x -> x.Replace("a", ":+:")

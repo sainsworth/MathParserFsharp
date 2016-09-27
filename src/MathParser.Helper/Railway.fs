@@ -1,7 +1,6 @@
 ﻿module MathParser.Railway
 
 open MathParser.Domain
-open MathParser.DomainUtils
 
 // http://fsharpforfunandprofit.com/posts/recipe-part2/
 
@@ -42,7 +41,7 @@ let (>>-) twoTrackInput oneTrackFunction =
 
 // DeadEndFunction
 // Like a one track function but disregard the result and pass through the original input
-// Dead End Function called tee, after the UNIX tee command:
+// function to bring in a DEF called tee, after the UNIX tee command:
 let tee deadEndFunction x = 
     deadEndFunction x |> ignore
     x
